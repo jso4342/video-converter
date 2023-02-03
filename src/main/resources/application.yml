@@ -20,3 +20,12 @@ spring:
   mysql:
     console:
       enabled: true
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      location: /Users/macintoshhd/Desktop/upload
+
+logging:
+  config: classpath:log4j2.yml
