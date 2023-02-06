@@ -19,8 +19,8 @@ public class VideoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VideoResponse> getVideoById(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok(videoService.getVideoById(id));
+    public ResponseEntity<VideoResponse> getVideoById(@PathVariable(value = "id") Long videoId) {
+        return ResponseEntity.ok(videoService.getVideoById(videoId));
     }
 
     /*
