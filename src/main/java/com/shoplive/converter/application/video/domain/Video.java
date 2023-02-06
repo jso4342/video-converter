@@ -23,11 +23,11 @@ public class Video extends BaseEntity {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "original_url")
+    @JoinColumn(name = "original_id")
     private Original original;
 
     @ManyToOne
-    @JoinColumn(name = "resized_url")
+    @JoinColumn(name = "resized_id")
     private Resized resized;
 
     protected Video() { }
@@ -62,25 +62,6 @@ public class Video extends BaseEntity {
     }
 
     public void validateTitle(String title){
-        Assert.hasText(title, "제목은 적어도 한 글자 이상이어야 합니다.");
+        Assert.hasText(title, "영상의 제목은 적어도 한 글자 이상이어야 합니다.");
     }
-    /*
-    {
-      "id": 123, //
-      "title": "This is a sample video.", //
-      "original": {
-          "filesize": 58234223,
-          "width": 900,
-          "height": 500,
-          "videoUrl": "http://.../video/sample.mp4"
-      },
-      "resized": {
-        "filesize": 12831208,
-        "width": 180,
-        "height": 100,
-        "videoUrl": "http://.../video/sample_180.mp4"
-      },
-      "createdAt": "2023-01-01T10:00:00+09:00"
-     }
-     */
 }
