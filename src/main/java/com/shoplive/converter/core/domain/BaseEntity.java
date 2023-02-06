@@ -14,4 +14,8 @@ public abstract class BaseEntity {
     @Column(name = "created_at", updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }
