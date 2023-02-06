@@ -1,5 +1,8 @@
-package com.shoplive.converter.domain.entities;
+package com.shoplive.converter.application.storage.domain;
 
+import com.shoplive.converter.core.domain.BaseEntity;
+import com.shoplive.converter.application.video.domain.OriginalVideo;
+import com.shoplive.converter.application.video.domain.ResizedVideo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

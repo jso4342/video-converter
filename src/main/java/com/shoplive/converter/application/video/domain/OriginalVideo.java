@@ -1,4 +1,4 @@
-package com.shoplive.converter.domain.entities;
+package com.shoplive.converter.application.video.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -7,10 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class ResizedVideo {
+public class OriginalVideo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "resized_id", updatable = false)
+    @Column(name = "original_id", updatable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -22,12 +22,12 @@ public class ResizedVideo {
     @Column(nullable = false)
     private Integer height;
 
-    @Column(name = "resized_url")
+    @Column(name = "original_url")
     private String videoUrl;
 
-    protected ResizedVideo() { }
+    protected OriginalVideo() { }
 
-    public ResizedVideo(Long fileSize, Integer width, Integer height, String videoUrl) {
+    public OriginalVideo(Long fileSize, Integer width, Integer height, String videoUrl) {
         //validate
 
         this.fileSize = fileSize;

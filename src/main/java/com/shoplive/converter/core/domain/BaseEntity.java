@@ -1,4 +1,4 @@
-package com.shoplive.converter.domain.entities;
+package com.shoplive.converter.core.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
