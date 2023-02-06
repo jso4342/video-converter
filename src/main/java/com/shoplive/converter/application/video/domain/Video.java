@@ -1,8 +1,6 @@
-package com.shoplive.converter.application.storage.domain;
+package com.shoplive.converter.application.video.domain;
 
 import com.shoplive.converter.core.domain.BaseEntity;
-import com.shoplive.converter.application.video.domain.OriginalVideo;
-import com.shoplive.converter.application.video.domain.ResizedVideo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,10 +12,10 @@ import org.hibernate.annotations.ColumnDefault;
 import org.springframework.util.Assert;
 
 @Entity
-public class Storage extends BaseEntity {
+public class Video extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "storage_id", updatable = false)
+    @Column(name = "video_id", updatable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -26,15 +24,15 @@ public class Storage extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "original_url")
-    private OriginalVideo original;
+    private Original original;
 
     @ManyToOne
     @JoinColumn(name = "resized_url")
-    private ResizedVideo resized;
+    private Resized resized;
 
-    protected Storage() { }
+    protected Video() { }
 
-    public Storage(Long id, String title, OriginalVideo original, ResizedVideo resized) {
+    public Video(Long id, String title, Original original, Resized resized) {
         validateTitle(title);
 
         this.id = id;
@@ -43,7 +41,7 @@ public class Storage extends BaseEntity {
         this.resized = resized;
     }
 
-    public Storage(String title, OriginalVideo original, ResizedVideo resized) {
+    public Video(String title, Original original, Resized resized) {
         this(null, title, original, resized);
     }
 
@@ -55,11 +53,11 @@ public class Storage extends BaseEntity {
         return title;
     }
 
-    public OriginalVideo getOriginal() {
+    public Original getOriginal() {
         return original;
     }
 
-    public ResizedVideo getResized() {
+    public Resized getResized() {
         return resized;
     }
 
