@@ -62,6 +62,7 @@ public class Video extends BaseEntity {
     }
 
     public void validateTitle(String title){
-        Assert.hasText(title, "영상의 제목은 적어도 한 글자 이상이어야 합니다.");
+        Assert.notNull(title, "title must not be null");
+        Assert.hasText(title, "title must be at least 0 character long");
     }
 }
