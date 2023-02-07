@@ -3,11 +3,19 @@ package com.shoplive.converter.core.exception;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {
-    INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "파라미터 값을 확인해주세요."),
+    INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "Parameter error"),
 
-    VIDEO_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 영상 ID 입니다."),
+    VIDEO_NOT_FOUND(HttpStatus.NOT_FOUND, "video does not exist"),
 
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러입니다.");
+    ORIGINAL_NOT_FOUND(HttpStatus.NOT_FOUND, "original video does not exist"),
+
+    RESIZED_NOT_FOUND(HttpStatus.NOT_FOUND, "resized video does not exist"),
+
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "server error"),
+
+    PAYLOAD_TOO_LARGE(HttpStatus.PAYLOAD_TOO_LARGE, "file must not exceed 100MB in size"),
+
+    UNSUPPORTED_FORMAT(HttpStatus.BAD_REQUEST, "file must be in MP4");
 
     private final HttpStatus status;
     private final String message;
