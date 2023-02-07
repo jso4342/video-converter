@@ -36,6 +36,10 @@ public class Resized {
         this.videoUrl = videoUrl;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Long getFileSize() {
         return fileSize;
     }
