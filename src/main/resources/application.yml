@@ -33,8 +33,11 @@ logging:
 
 custom:
   path:
+    upload: '/Users/macintoshhd/Desktop/upload/'
     resource: 'file:///Users/macintoshhd/Desktop/upload/'
     connect: '/imagePath/**'
+    ffmpeg: '/usr/local/bin/ffmpeg'
+    ffprobe: '/usr/local/bin/ffprobe'
 
 server:
   port: 8081
