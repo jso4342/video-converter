@@ -35,7 +35,6 @@ public class VideoDto {
             Original original,
             Resized resized,
             LocalDateTime createdAt
-
     ) {
         public static VideoResponse from (Video video) {
             return new VideoResponse(
