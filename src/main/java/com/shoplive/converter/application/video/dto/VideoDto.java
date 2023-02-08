@@ -1,8 +1,7 @@
 package com.shoplive.converter.application.video.dto;
 
-import com.shoplive.converter.application.video.domain.Original;
-import com.shoplive.converter.application.video.domain.Resized;
 import com.shoplive.converter.application.video.domain.Video;
+import com.shoplive.converter.application.video.domain.VideoData;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,8 +19,8 @@ public class VideoDto {
             String thumbnailUrl
     ){
         public Video toEntity(
-                Original original,
-                Resized resized
+                VideoData original,
+                VideoData resized
         ) {
             return new Video(
                     title,
@@ -35,8 +34,8 @@ public class VideoDto {
     public record VideoResponse(
             Long id,
             String title,
-            Original original,
-            Resized resized,
+            VideoData original,
+            VideoData resized,
             String thumbnailUrl,
             LocalDateTime createdAt
     ) {

@@ -1,11 +1,11 @@
 package com.shoplive.converter.application.video.dto;
 
-import com.shoplive.converter.application.video.domain.Original;
+import com.shoplive.converter.application.video.domain.VideoData;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class OriginalDto {
-    public record OriginalRequest(
+public class VideoDataDto {
+    public record VideoDataRequest(
             @NotNull
             Long fileSize,
             @NotNull
@@ -15,8 +15,8 @@ public class OriginalDto {
             @NotBlank
             String videoUrl
     ){
-        public Original toEntity() {
-            return new Original(
+        public VideoData toEntity() {
+            return new VideoData(
                     fileSize,
                     width,
                     height,
@@ -25,20 +25,18 @@ public class OriginalDto {
         }
     }
 
-    public record OriginalResponse(
-            Long id,
+    public record VideoDataResponse(
             Long fileSize,
             Integer width,
             Integer height,
             String videoUrl
     ){
-        public static OriginalResponse from(Original original) {
-            return new OriginalResponse(
-                    original.getId(),
-                    original.getFileSize(),
-                    original.getWidth(),
-                    original.getHeight(),
-                    original.getVideoUrl()
+        public static VideoDataResponse from(VideoData videoData) {
+            return new VideoDataResponse(
+                    videoData.getFileSize(),
+                    videoData.getWidth(),
+                    videoData.getHeight(),
+                    videoData.getVideoUrl()
             );
         }
     }
