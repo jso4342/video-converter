@@ -76,16 +76,16 @@ public class Resized {
         return videoUrl;
     }
 
-    public void validateFileSize(Long fileSize){
-        Assert.notNull(fileSize, "file size must not be null");
+    public void validateFileSize(long fileSize){
+        Assert.isTrue(fileSize > 0, "file size must not be below 0");
     }
 
-    private void validateWidth(Integer width) {
-        Assert.notNull(width, "width must not be null");
+    private void validateWidth(int width){
+        Assert.isTrue(width > 0, "width must not be below 0");
     }
 
-    private void validateHeight(Integer height) {
-        Assert.notNull(height, "height must not be null");
+    private void validateHeight(int height) {
+        Assert.isTrue(height > 0, "height must not be below 0");
     }
 
     private void validateVideoUrl(String videoUrl) {
