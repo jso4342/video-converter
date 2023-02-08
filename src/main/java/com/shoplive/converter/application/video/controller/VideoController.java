@@ -24,14 +24,11 @@ import java.net.URI;
 @RequestMapping("/video")
 public class VideoController {
     private final VideoService videoService;
-    private final int PORT;
 
     public VideoController(
-            VideoService videoService,
-            @Value("${server.port}") int PORT
+            VideoService videoService
     ) {
         this.videoService = videoService;
-        this.PORT = PORT;
     }
 
     @GetMapping("/{id}")
@@ -41,7 +38,7 @@ public class VideoController {
 
     @PostMapping(value = "upload")
     public ResponseEntity<VideoResponse> convertVideo(@Valid @RequestBody UploadRequest request) throws IOException {
-        
+
         VideoResponse response = videoService.convertVideo(request);
         URI location = URI.create("/video/" + response.id());
         return ResponseEntity.created(location)
