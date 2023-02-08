@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.springframework.util.Assert;
 
 @Entity
 public class Resized {
@@ -27,13 +28,32 @@ public class Resized {
 
     protected Resized() { }
 
-    public Resized(Long fileSize, Integer width, Integer height, String videoUrl) {
-        //validate
+    public Resized(
+            Long id,
+            Long fileSize,
+            Integer width,
+            Integer height,
+            String videoUrl
+    ) {
+        validateFileSize(fileSize);
+        validateWidth(width);
+        validateHeight(height);
+        validateVideoUrl(videoUrl);
 
+        this.id = id;
         this.fileSize = fileSize;
         this.width = width;
         this.height = height;
         this.videoUrl = videoUrl;
+    }
+
+    public Resized(
+            Long fileSize,
+            Integer width,
+            Integer height,
+            String videoUrl
+    ) {
+        this(null, fileSize, width, height, videoUrl);
     }
 
     public Long getId() {
@@ -54,5 +74,22 @@ public class Resized {
 
     public String getVideoUrl() {
         return videoUrl;
+    }
+
+    public void validateFileSize(Long fileSize){
+        Assert.notNull(fileSize, "file size must not be null");
+    }
+
+    private void validateWidth(Integer width) {
+        Assert.notNull(width, "width must not be null");
+    }
+
+    private void validateHeight(Integer height) {
+        Assert.notNull(height, "height must not be null");
+    }
+
+    private void validateVideoUrl(String videoUrl) {
+        Assert.notNull(videoUrl, "video url must not be null");
+        Assert.hasText(videoUrl, "video url must be at least 0 character long");
     }
 }
