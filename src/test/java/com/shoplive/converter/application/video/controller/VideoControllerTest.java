@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
 import com.shoplive.converter.application.video.dto.OriginalDto.*;
 import com.shoplive.converter.application.video.dto.ResizedDto.*;
@@ -31,7 +30,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -95,7 +93,7 @@ public class VideoControllerTest {
         videoService.storeVideo(request);
     }
 
-    @DisplayName("store video information")
+    @DisplayName("영상을 저장할 수 있다.")
     @Test
     void storeVideoTest() throws Exception {
         String fileName = "sample";
@@ -107,7 +105,6 @@ public class VideoControllerTest {
                 "sample.mp4",
                 "mp4",
                 new FileInputStream("/Users/macintoshhd/Desktop/gitgit/shoplive/src/test/resources/static/sample.mp4"));
-
         String title = "sample test";
 
         String originalSaveName = uploadService.uploadOriginal(mockFile);
@@ -135,7 +132,7 @@ public class VideoControllerTest {
                         )));
     }
 
-    @DisplayName("get a video information by id")
+    @DisplayName("영상을 단건 조회할 수 있다.")
     @Test
     void getVideoByIdTest() throws Exception {
         mockMvc.perform(get("/video/1"))
