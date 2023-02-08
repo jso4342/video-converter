@@ -1,19 +1,11 @@
 package com.shoplive.converter.application.video.domain;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Embeddable;
 import org.springframework.util.Assert;
 
-@Entity
-public class Original {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "original_id", updatable = false)
-    private Long id;
-
+@Embeddable
+public class VideoData {
     @Column(nullable = false)
     private Long fileSize;
 
@@ -23,41 +15,23 @@ public class Original {
     @Column(nullable = false)
     private Integer height;
 
-    @Column(name = "original_url", nullable = false)
+    @Column(nullable = false)
     private String videoUrl;
 
-    protected Original() { }
+    protected VideoData() { }
 
-    public Original(
-            Long id,
+    public VideoData(
             Long fileSize,
             Integer width,
             Integer height,
             String videoUrl
     ) {
-        validateFileSize(fileSize);
-        validateWidth(width);
-        validateHeight(height);
-        validateVideoUrl(videoUrl);
+        validateVideoData(fileSize, width, height, videoUrl);
 
-        this.id = id;
         this.fileSize = fileSize;
         this.width = width;
         this.height = height;
         this.videoUrl = videoUrl;
-    }
-
-    public Original(
-            Long fileSize,
-            Integer width,
-            Integer height,
-            String videoUrl
-    ) {
-        this(null, fileSize, width, height, videoUrl);
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public Long getFileSize() {
@@ -76,19 +50,15 @@ public class Original {
         return videoUrl;
     }
 
-    public void validateFileSize(long fileSize){
+    public void validateVideoData(
+            long fileSize,
+            int width,
+            int height,
+            String videoUrl
+    ){
         Assert.isTrue(fileSize > 0, "file size must not be below 0");
-    }
-
-    private void validateWidth(int width){
         Assert.isTrue(width > 0, "width must not be below 0");
-    }
-
-    private void validateHeight(int height) {
         Assert.isTrue(height > 0, "height must not be below 0");
-    }
-
-    private void validateVideoUrl(String videoUrl) {
         Assert.notNull(videoUrl, "video url must not be null");
         Assert.hasText(videoUrl, "video url must be at least 0 character long");
     }

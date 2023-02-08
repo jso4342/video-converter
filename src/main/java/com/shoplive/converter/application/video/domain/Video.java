@@ -1,13 +1,13 @@
 package com.shoplive.converter.application.video.domain;
 
 import com.shoplive.converter.core.domain.BaseEntity;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import org.springframework.util.Assert;
 
 @Entity
@@ -20,13 +20,19 @@ public class Video extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "original_id")
-    private Original original;
+    @Embedded
+    @AttributeOverride(name = "fileSize", column = @Column(name = "original_file_size"))
+    @AttributeOverride(name = "width", column = @Column(name = "original_width"))
+    @AttributeOverride(name = "height", column = @Column(name = "original_height"))
+    @AttributeOverride(name = "videoUrl", column = @Column(name = "original_video_url"))
+    private VideoData original;
 
-    @ManyToOne
-    @JoinColumn(name = "resized_id")
-    private Resized resized;
+    @Embedded
+    @AttributeOverride(name = "fileSize", column = @Column(name = "resized_file_size"))
+    @AttributeOverride(name = "width", column = @Column(name = "resized_width"))
+    @AttributeOverride(name = "height", column = @Column(name = "resized_height"))
+    @AttributeOverride(name = "videoUrl", column = @Column(name = "resized_video_url"))
+    private VideoData resized;
 
     @Column(nullable = false)
     private String thumbnailUrl;
@@ -36,8 +42,8 @@ public class Video extends BaseEntity {
     public Video(
             Long id,
             String title,
-            Original original,
-            Resized resized,
+            VideoData original,
+            VideoData resized,
             String thumbnailUrl
     ) {
         validateVideo(title, thumbnailUrl);
@@ -51,8 +57,8 @@ public class Video extends BaseEntity {
 
     public Video(
             String title,
-            Original original,
-            Resized resized,
+            VideoData original,
+            VideoData resized,
             String thumbnailUrl
     ) {
         this(null, title, original, resized, thumbnailUrl);
@@ -66,11 +72,11 @@ public class Video extends BaseEntity {
         return title;
     }
 
-    public Original getOriginal() {
+    public VideoData getOriginal() {
         return original;
     }
 
-    public Resized getResized() {
+    public VideoData getResized() {
         return resized;
     }
 
