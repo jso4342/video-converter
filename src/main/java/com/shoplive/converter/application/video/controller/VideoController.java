@@ -40,11 +40,8 @@ public class VideoController {
     }
 
     @PostMapping(value = "upload")
-    public ResponseEntity<VideoResponse> convertVideo(@RequestPart("file") MultipartFile file, @RequestPart("title") String title) throws IOException {
-    //public ResponseEntity<VideoResponse> convertVideo(@Valid @RequestBody UploadRequest request) throws IOException {
-
-        UploadRequest request = new UploadRequest(file, title);
-
+    public ResponseEntity<VideoResponse> convertVideo(@Valid @RequestBody UploadRequest request) throws IOException {
+        
         VideoResponse response = videoService.convertVideo(request);
         URI location = URI.create("/video/" + response.id());
         return ResponseEntity.created(location)
