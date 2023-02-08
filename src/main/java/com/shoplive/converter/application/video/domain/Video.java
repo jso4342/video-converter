@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.util.Assert;
 
 @Entity
@@ -19,7 +18,6 @@ public class Video extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    @ColumnDefault("'untitled'")
     private String title;
 
     @ManyToOne
@@ -42,8 +40,7 @@ public class Video extends BaseEntity {
             Resized resized,
             String thumbnailUrl
     ) {
-        validateTitle(title);
-        validateThumbnailUrl(thumbnailUrl);
+        validateVideo(title, thumbnailUrl);
 
         this.id = id;
         this.title = title;
@@ -81,12 +78,9 @@ public class Video extends BaseEntity {
         return thumbnailUrl;
     }
 
-    public void validateTitle(String title){
+    public void validateVideo(String title, String thumbnailUrl){
         Assert.notNull(title, "title must not be null");
         Assert.hasText(title, "title must be at least 0 character long");
-    }
-
-    public void validateThumbnailUrl(String thumbnailUrl){
         Assert.notNull(thumbnailUrl, "thumbnail url must not be null");
         Assert.hasText(thumbnailUrl, "thumbnail url must be at least 0 character long");
     }
