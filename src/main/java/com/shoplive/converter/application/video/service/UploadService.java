@@ -13,9 +13,7 @@ import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,19 +28,24 @@ import java.util.UUID;
 @Transactional
 public class UploadService {
     private static final Logger logger = LogManager.getLogger(UploadService.class);
-
     private final OriginalRepository originalRepository;
     private final ResizedRepository resizedRepository;
-
-    @Value("${server.port}")
-    private int port;
+    private final String uploadPath;
+    private final String ffprobePath;
+    private final int port;
 
     public UploadService(
             OriginalRepository originalRepository,
-            ResizedRepository resizedRepository
+            ResizedRepository resizedRepository,
+            @Value("${custom.path.upload}") String uploadPath,
+            @Value("${custom.path.ffprobe}") String ffprobePath,
+            @Value("${server.port}") int port
     ){
         this.originalRepository = originalRepository;
         this.resizedRepository = resizedRepository;
+        this.uploadPath = uploadPath;
+        this.ffprobePath = ffprobePath;
+        this.port = port;
     }
 
     public String uploadOriginal(MultipartFile file){
@@ -51,35 +54,29 @@ public class UploadService {
             String fileName = file.getOriginalFilename();
             String extension = FilenameUtils.getExtension(fileName);
             String uuid = UUID.randomUUID().toString();
-            originalSaveName = uuid + "." + extension;
             double fileSize = file.getSize();
             double fileSizeMB = (fileSize / (1024 * 1024));
 
+            originalSaveName = uuid + "." + extension;
             logger.debug("file orginal name = {}", fileName);
             logger.debug("file size = {} MB", fileSizeMB);
 
             if (!extension.toUpperCase().equals("MP4")) {
-                logger.error("file must be in MP4 format");
-                throw new UnsupportedFormatException("file must be in MP4, but uploaded file is in : " + extension, ErrorCode.UNSUPPORTED_FORMAT);
-            }
-
-            if (fileSizeMB > 100) { // 조건에 부합하지 않는 경우 에러를 응답합니다.
-                logger.error("file must not exceed 100MB in size");
+                logger.error("file must be in MP4 format. requested file is in = {}", extension);
+                throw new UnsupportedFormatException(
+                        "file must be in MP4.", ErrorCode.UNSUPPORTED_FORMAT);
+                // HttpResponse 로 안들어감
             }
 
             file.transferTo(new File(originalSaveName));
-        } catch (Exception e){ // 이거 말고 더 자세하게
+        } catch (Exception e){ // 더 나은 예외 처리가 있나?
             e.printStackTrace();
         }
         return originalSaveName;
     }
 
-
-
     public OriginalResponse saveOriginal(MultipartFile file, String originalSaveName) throws IOException {
-        String uploadPath = "/Users/macintoshhd/Desktop/upload/";
-
-        FFprobe ffprobe = new FFprobe("/usr/local/bin/ffprobe");  // ffprobe 리눅스 경로
+        FFprobe ffprobe = new FFprobe(ffprobePath);
         FFmpegProbeResult probeResult = ffprobe.probe(uploadPath + originalSaveName);
 
         long fileSize = file.getSize();
@@ -94,10 +91,7 @@ public class UploadService {
     }
 
     public ResizedResponse saveResized(String resizedSaveName) throws IOException {
-        String uploadPath = "/Users/macintoshhd/Desktop/upload/";
-        String uuid = UUID.randomUUID().toString();
-
-        FFprobe ffprobe = new FFprobe("/usr/local/bin/ffprobe");  // ffprobe 리눅스 경로
+        FFprobe ffprobe = new FFprobe(ffprobePath);
         FFmpegProbeResult probeResult = ffprobe.probe(uploadPath + resizedSaveName);
 
         long fileSize = Files.size(Paths.get(uploadPath + resizedSaveName));
@@ -110,7 +104,4 @@ public class UploadService {
 
         return ResizedResponse.from(resized);
     }
-
-
-
 }
