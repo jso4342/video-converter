@@ -34,6 +34,7 @@ public class VideoService {
     public VideoResponse storeVideo(VideoRequest request) {
         Long originalId = request.originalId();
         Long resizedId = request.resizedId();
+
         Original original = originalRepository.findById(originalId)
                 .orElseThrow(() -> new OriginalNotFoundException("original video id: " + originalId, ErrorCode.ORIGINAL_NOT_FOUND));
         Resized resized = resizedRepository.findById(resizedId)
@@ -43,7 +44,6 @@ public class VideoService {
         return VideoResponse.from(video);
     }
 
-    // 영상의 상세 정보를 조회할 수 있는 API
     @Transactional(readOnly = true)
     public VideoResponse getVideoById(Long videoId) {
         Video video = videoRepository.findById(videoId)
