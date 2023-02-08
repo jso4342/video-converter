@@ -74,7 +74,7 @@ public class UploadService {
                 // HttpResponse 로 안들어감
             }
 
-            file.transferTo(new File(originalSaveName));
+            file.transferTo(new File(uploadPath + originalSaveName));
         } catch (Exception e){ // 더 나은 예외 처리가 있나?
             e.printStackTrace();
         }
@@ -83,6 +83,8 @@ public class UploadService {
 
     public OriginalResponse saveOriginal(MultipartFile file, String originalSaveName) throws IOException {
         FFprobe ffprobe = new FFprobe(ffprobePath);
+        logger.info("ffprobe path is = {}", ffprobePath);
+        logger.info("upload path is = {}", uploadPath);
         FFmpegProbeResult probeResult = ffprobe.probe(uploadPath + originalSaveName);
 
         long fileSize = file.getSize();
