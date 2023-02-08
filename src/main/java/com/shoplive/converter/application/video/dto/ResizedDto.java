@@ -1,6 +1,5 @@
 package com.shoplive.converter.application.video.dto;
 
-import com.shoplive.converter.application.video.domain.Original;
 import com.shoplive.converter.application.video.domain.Resized;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
