@@ -16,6 +16,7 @@ spring:
         use_sql_comments: true
     hibernate:
       ddl-auto: create-drop
+      # 최종 제출 시 수정 필요
 
   mysql:
     console:
@@ -29,3 +30,11 @@ spring:
 
 logging:
   config: classpath:log4j2.yml
+
+custom:
+  path:
+    resource: 'file:///Users/macintoshhd/Desktop/upload/'
+    connect: '/imagePath/**'
+
+server:
+  port: 8081
