@@ -32,7 +32,12 @@ public class Video extends BaseEntity {
 
     protected Video() { }
 
-    public Video(Long id, String title, Original original, Resized resized) {
+    public Video(
+            Long id,
+            String title,
+            Original original,
+            Resized resized
+    ) {
         validateTitle(title);
 
         this.id = id;
@@ -41,7 +46,11 @@ public class Video extends BaseEntity {
         this.resized = resized;
     }
 
-    public Video(String title, Original original, Resized resized) {
+    public Video(
+            String title,
+            Original original,
+            Resized resized
+    ) {
         this(null, title, original, resized);
     }
 

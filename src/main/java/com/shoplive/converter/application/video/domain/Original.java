@@ -28,7 +28,13 @@ public class Original {
 
     protected Original() { }
 
-    public Original(Long id, Long fileSize, Integer width, Integer height, String videoUrl) {
+    public Original(
+            Long id,
+            Long fileSize,
+            Integer width,
+            Integer height,
+            String videoUrl
+    ) {
         validateFileSize(fileSize);
         validateWidth(width);
         validateHeight(height);
@@ -41,7 +47,12 @@ public class Original {
         this.videoUrl = videoUrl;
     }
 
-    public Original(Long fileSize, Integer width, Integer height, String videoUrl) {
+    public Original(
+            Long fileSize,
+            Integer width,
+            Integer height,
+            String videoUrl
+    ) {
         this(null, fileSize, width, height, videoUrl);
     }
 
