@@ -30,28 +30,35 @@ public class Video extends BaseEntity {
     @JoinColumn(name = "resized_id")
     private Resized resized;
 
+    @Column(nullable = false)
+    private String thumbnailUrl;
+
     protected Video() { }
 
     public Video(
             Long id,
             String title,
             Original original,
-            Resized resized
+            Resized resized,
+            String thumbnailUrl
     ) {
         validateTitle(title);
+        validateThumbnailUrl(thumbnailUrl);
 
         this.id = id;
         this.title = title;
         this.original = original;
         this.resized = resized;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public Video(
             String title,
             Original original,
-            Resized resized
+            Resized resized,
+            String thumbnailUrl
     ) {
-        this(null, title, original, resized);
+        this(null, title, original, resized, thumbnailUrl);
     }
 
     public Long getId() {
@@ -70,8 +77,17 @@ public class Video extends BaseEntity {
         return resized;
     }
 
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
     public void validateTitle(String title){
         Assert.notNull(title, "title must not be null");
         Assert.hasText(title, "title must be at least 0 character long");
+    }
+
+    public void validateThumbnailUrl(String thumbnailUrl){
+        Assert.notNull(thumbnailUrl, "thumbnail url must not be null");
+        Assert.hasText(thumbnailUrl, "thumbnail url must be at least 0 character long");
     }
 }

@@ -8,7 +8,10 @@ import com.shoplive.converter.application.video.repository.OriginalRepository;
 import com.shoplive.converter.application.video.repository.ResizedRepository;
 import com.shoplive.converter.core.exception.ErrorCode;
 import com.shoplive.converter.core.exception.customException.UnsupportedFormatException;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +34,7 @@ public class UploadService {
     private final OriginalRepository originalRepository;
     private final ResizedRepository resizedRepository;
     private final String uploadPath;
+    private final String ffmpegPath;
     private final String ffprobePath;
     private final int port;
 
@@ -38,12 +42,14 @@ public class UploadService {
             OriginalRepository originalRepository,
             ResizedRepository resizedRepository,
             @Value("${custom.path.upload}") String uploadPath,
+            @Value("${custom.path.ffmpeg}") String ffmpegPath,
             @Value("${custom.path.ffprobe}") String ffprobePath,
             @Value("${server.port}") int port
     ){
         this.originalRepository = originalRepository;
         this.resizedRepository = resizedRepository;
         this.uploadPath = uploadPath;
+        this.ffmpegPath = ffmpegPath;
         this.ffprobePath = ffprobePath;
         this.port = port;
     }
@@ -88,6 +94,31 @@ public class UploadService {
         originalRepository.save(original);
 
         return OriginalResponse.from(original);
+    }
+
+    public String exportThumbnail(MultipartFile file, String originalSaveName) throws IOException {
+        File thumbnailPathFile = new File(uploadPath + "/thumbnail/");
+
+        if(!thumbnailPathFile.exists()){
+            thumbnailPathFile.mkdirs();
+        }
+
+        FFmpeg ffmpeg = new FFmpeg(ffmpegPath);
+        FFprobe ffprobe = new FFprobe(ffprobePath);
+        String thumbnailName = FilenameUtils.removeExtension(originalSaveName) + "_thumbnail.jpg";
+
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .overrideOutputFiles(true)
+                .setInput(uploadPath + originalSaveName)
+                .addExtraArgs("-ss", "00:00:00")
+                .addOutput(uploadPath + "/thumbnail/" + thumbnailName)
+                .setFrames(1)
+                .done();
+
+        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        executor.createJob(builder).run();
+
+        return thumbnailName;
     }
 
     public ResizedResponse saveResized(String resizedSaveName) throws IOException {

@@ -15,7 +15,9 @@ public class VideoDto {
             @NotNull
             Long originalId,
             @NotNull
-            Long resizedId
+            Long resizedId,
+            @NotBlank
+            String thumbnailUrl
     ){
         public Video toEntity(
                 Original original,
@@ -24,7 +26,8 @@ public class VideoDto {
             return new Video(
                     title,
                     original,
-                    resized
+                    resized,
+                    thumbnailUrl
             );
         }
     }
@@ -34,6 +37,7 @@ public class VideoDto {
             String title,
             Original original,
             Resized resized,
+            String thumbnailUrl,
             LocalDateTime createdAt
     ) {
         public static VideoResponse from (Video video) {
@@ -42,6 +46,7 @@ public class VideoDto {
                     video.getTitle(),
                     video.getOriginal(),
                     video.getResized(),
+                    video.getThumbnailUrl(),
                     video.getCreatedAt());
         }
     }
