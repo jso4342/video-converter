@@ -12,15 +12,17 @@ public class VideoDto {
             @NotBlank
             String title,
             @NotNull
-            Long originalId,
+            VideoData original,
             @NotNull
-            Long resizedId,
+            VideoData resized,
             @NotBlank
             String thumbnailUrl
     ){
         public Video toEntity(
+                String title,
                 VideoData original,
-                VideoData resized
+                VideoData resized,
+                String thumbnailUrl
         ) {
             return new Video(
                     title,
@@ -46,7 +48,8 @@ public class VideoDto {
                     video.getOriginal(),
                     video.getResized(),
                     video.getThumbnailUrl(),
-                    video.getCreatedAt());
+                    video.getCreatedAt()
+            );
         }
     }
 }

@@ -40,4 +40,4 @@ custom:
     ffprobe: '/usr/local/bin/ffprobe'
 
 server:
-  port: 8081
+  port: 8085

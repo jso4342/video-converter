@@ -21,14 +21,12 @@ public class Video extends BaseEntity {
     private String title;
 
     @Embedded
-    @AttributeOverride(name = "fileSize", column = @Column(name = "original_file_size"))
     @AttributeOverride(name = "width", column = @Column(name = "original_width"))
     @AttributeOverride(name = "height", column = @Column(name = "original_height"))
     @AttributeOverride(name = "videoUrl", column = @Column(name = "original_video_url"))
     private VideoData original;
 
     @Embedded
-    @AttributeOverride(name = "fileSize", column = @Column(name = "resized_file_size"))
     @AttributeOverride(name = "width", column = @Column(name = "resized_width"))
     @AttributeOverride(name = "height", column = @Column(name = "resized_height"))
     @AttributeOverride(name = "videoUrl", column = @Column(name = "resized_video_url"))
