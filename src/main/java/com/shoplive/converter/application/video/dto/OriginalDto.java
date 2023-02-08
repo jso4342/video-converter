@@ -20,7 +20,8 @@ public class OriginalDto {
                     fileSize,
                     width,
                     height,
-                    videoUrl);
+                    videoUrl
+            );
         }
     }
 
