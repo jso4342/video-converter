@@ -48,19 +48,19 @@ public class VideoService {
         this.PORT = PORT;
     }
 
-    public VideoResponse convertVideo(UploadRequest request) throws IOException {
-        String originalName = uploadVideo(request.file());
+    public VideoResponse convertVideo(String title, MultipartFile file) throws IOException {
+        String originalName = uploadVideo(file);
         VideoData original = getOriginal(originalName);
 
-        String thumbnailUrl = getThumbnailUrl(request.file(), originalName);
+        String thumbnailUrl = getThumbnailUrl(file, originalName);
 
-        ConverterSetting setting = setConverter(request.file(), originalName);
+        ConverterSetting setting = setConverter(file, originalName);
         VideoData resized = getResized(setting);
 
         VideoResponse response = VideoResponse.from(
-                videoRepository.save(new Video (request.title(),  original, resized, thumbnailUrl)));
+                videoRepository.save(new Video (title,  original, resized, thumbnailUrl)));
 
-        convert(request.file(), setting);
+        convert(file, setting);
 
         return response;
     }

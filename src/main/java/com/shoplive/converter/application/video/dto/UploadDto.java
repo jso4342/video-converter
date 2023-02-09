@@ -1,19 +1,14 @@
 package com.shoplive.converter.application.video.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.web.multipart.MultipartFile;
 
 public class UploadDto {
     public record UploadRequest(
-            @NotNull
-            MultipartFile file,
             @NotBlank
             String title
     ){ }
 
     public record UploadResponse(
-            MultipartFile file,
             String title
     ){ }
 

@@ -1,17 +1,13 @@
 package com.shoplive.converter.application.video.controller;
 
-import com.shoplive.converter.application.video.dto.UploadDto;
 import com.shoplive.converter.application.video.dto.UploadDto.*;
 import com.shoplive.converter.application.video.dto.VideoDto.*;
 import com.shoplive.converter.application.video.service.VideoService;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +32,15 @@ public class VideoController {
         return ResponseEntity.ok(videoService.getVideoById(videoId));
     }
 
-    @PostMapping(value = "upload")
-    public ResponseEntity<VideoResponse> convertVideo(@Valid @RequestBody UploadRequest request) throws IOException {
+    @PostMapping(
+            value = "/upload",
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.MULTIPART_FORM_DATA_VALUE
+    })
+    public ResponseEntity<VideoResponse> convertVideo(@RequestPart("title") String title, @RequestPart("file") MultipartFile file) throws IOException {
 
-        VideoResponse response = videoService.convertVideo(request);
+        VideoResponse response = videoService.convertVideo(title, file);
         URI location = URI.create("/video/" + response.id());
         return ResponseEntity.created(location)
                 .build();
