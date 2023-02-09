@@ -16,11 +16,13 @@ $ git clone https://github.com/jso4342/video-converter.git
 2. 패키지를 설치합니다.
 
 ### 📣 [배경 및 공통 요구사항]
-- 데이터베이스 환경은 별도로 제공하지 않습니다.
- **RDB중 원하는 방식을 선택**하면 되며, sqlite3 같은 별도의 설치없이 이용 가능한 in-memory DB도 좋으며, 가능하다면 Docker로 준비하셔도 됩니다.
-- 단, 결과 제출 시 README.md 파일에 실행 방법을 완벽히 서술하여 DB를 포함하여 전체적인 서버를 구동하는데 문제없도록 해야합니다.
-- 데이터베이스 관련처리는 raw query가 아닌 **ORM을 이용하여 구현**합니다.
-- Response Codes API를 성공적으로 호출할 경우 200번 코드를 반환하고, 그 외의 경우에는 아래의 코드로 반환합니다.
+* 영상을 업로드하여 사이즈를 변환하는 API 서버를 제작합니다.
+* 사용자나 별도의 인증은 구현하지 않아도 됩니다.
+* 기본적인 요청과 응답은 json으로 구성하고 영상은 multipart로 업로드합니다.
+* 빌드 도구는 gradle 혹은 maven을 사용합니다. framework은 자유롭게 선택하시면 됩니다. (gradle 사용)
+* storage는 h2, mysql, redis, mongodb 등 편한 제품을 사용하시면 됩니다.         (mysql 사용) 
+* 스토리지, 초기화 스크립트 및 빌드 결과물을 포함한 Dockerfile을 작성하여 docker run 혹은 docker compose를 통해 실행할 수 있도록 구성합니다.
+* 서버의 구동 및 테스트 방법을 README.md로 작성합니다.
 
 <br>
 
