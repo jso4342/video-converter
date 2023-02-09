@@ -13,8 +13,8 @@ public class VideoTest {
     @ParameterizedTest
     @MethodSource("blankOrNullStrings")
     void titleCannotBeNull(String title) {
-        Original original = new Original(1L, 6000L, 600, 300, "test/url/1");
-        Resized resized = new Resized(1L, 6000L, 360, 180, "test/url/2");
+        VideoData original = new VideoData(600, 300, "test/url/1");
+        VideoData resized = new VideoData(360, 180, "test/url/2");
         String thumbnailUrl = "testThumbnailUrl";
 
         assertThrows(IllegalArgumentException.class,
@@ -25,8 +25,8 @@ public class VideoTest {
     @ParameterizedTest
     @MethodSource("blankOrNullStrings")
     void thumbnailUrlCannotBeNull(String thumbnailUrl) {
-        Original original = new Original(1L, 6000L, 600, 300, "test/url/1");
-        Resized resized = new Resized(1L, 6000L, 360, 180, "test/url/2");
+        VideoData original = new VideoData(600, 300, "test/url/1");
+        VideoData resized = new VideoData(360, 180, "test/url/2");
         String title = "testTitle";
 
         assertThrows(IllegalArgumentException.class,
