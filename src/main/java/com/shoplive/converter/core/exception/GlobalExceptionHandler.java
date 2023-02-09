@@ -1,7 +1,5 @@
 package com.shoplive.converter.core.exception;
 
-import com.shoplive.converter.core.exception.customException.OriginalNotFoundException;
-import com.shoplive.converter.core.exception.customException.ResizedNotFoundException;
 import com.shoplive.converter.core.exception.customException.UnsupportedFormatException;
 import com.shoplive.converter.core.exception.customException.VideoNotFoundException;
 import jakarta.validation.ConstraintViolation;
@@ -19,20 +17,6 @@ import static com.shoplive.converter.core.exception.ErrorCode.*;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(
-            Exception e) {
-        ErrorResponse response = ErrorResponse.of(INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(response, response.httpStatus());
-    }
-
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ErrorResponse> handleException(
-            MissingServletRequestParameterException e) {
-        ErrorResponse response = ErrorResponse.of(INVALID_PARAMETER);
-        return new ResponseEntity<>(response, response.httpStatus());
-    }
-
     @ExceptionHandler(MultipartException.class)
     public ResponseEntity<ErrorResponse> handleException(
             MultipartException e) {
@@ -56,28 +40,26 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(response.httpStatus()).body(response);
     }
 
-    @ExceptionHandler(OriginalNotFoundException.class)
-    protected ResponseEntity<ErrorResponse> handleException(
-            OriginalNotFoundException e) {
-        ErrorResponse response = new ErrorResponse(e.getErrorCode().getStatus(),
-                e.getErrorCode().getMessage());
-        return ResponseEntity.status(response.httpStatus()).body(response);
-    }
-
-    @ExceptionHandler(ResizedNotFoundException.class)
-    protected ResponseEntity<ErrorResponse> handleException(
-            ResizedNotFoundException e) {
-        ErrorResponse response = new ErrorResponse(e.getErrorCode().getStatus(),
-                e.getErrorCode().getMessage());
-        return ResponseEntity.status(response.httpStatus()).body(response);
-    }
-
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<ErrorResponse> handleException(
             ConstraintViolationException e) {
         String resultMessage = getResultMessage(e.getConstraintViolations().iterator());
         ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, resultMessage);
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorResponse> handleException(
+            MissingServletRequestParameterException e) {
+        ErrorResponse response = ErrorResponse.of(INVALID_PARAMETER);
+        return new ResponseEntity<>(response, response.httpStatus());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(
+            Exception e) {
+        ErrorResponse response = ErrorResponse.of(INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, response.httpStatus());
     }
 
     protected String getResultMessage(final Iterator<ConstraintViolation<?>> violationIterator) {

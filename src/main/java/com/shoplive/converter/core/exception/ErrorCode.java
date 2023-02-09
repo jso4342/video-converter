@@ -7,10 +7,6 @@ public enum ErrorCode {
 
     VIDEO_NOT_FOUND(HttpStatus.NOT_FOUND, "video does not exist"),
 
-    ORIGINAL_NOT_FOUND(HttpStatus.NOT_FOUND, "original video does not exist"),
-
-    RESIZED_NOT_FOUND(HttpStatus.NOT_FOUND, "resized video does not exist"),
-
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "server error"),
 
     PAYLOAD_TOO_LARGE(HttpStatus.PAYLOAD_TOO_LARGE, "file must not exceed 100MB in size"),
