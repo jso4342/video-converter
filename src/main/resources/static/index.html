@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video uploader & converter</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&amp;display=swap">
+</head>
+<body>
+    <form id="uploadForm" name="uploadForm" enctype="multipart/form-data">
+        <table class="edit-table">
+            <tr>
+                <th>동영상</th>
+                <td>
+                    <input id="file" type="file" name="file">
+                </td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>
+                    <input type="text" id="title" name="title"/>
+                </td>
+            </tr>
+        </table>
+        <input type="button" id="btnUpload" value="제출하기">
+    </form>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script language="javascript">
+    $(function(){
+        video_insert();
+    });
+
+    function video_insert() {
+        $('body').on("click", '#btnUpload', function () {
+            var file = $('#file')[0].files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+
+            var data = {
+                title: $('#title').val(),
+            };
+            formData.append("title", new Blob([JSON.stringify(data)], {type: "application/json"}));
+
+            $.ajax({
+                url: "video/upload",
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                enctype: 'multipart/form-data',
+                dataType: "json",
+                success: function(result) {
+                    alert('성공');
+                },
+                error: function (xhr, status, error) {
+                    // 실패 시 처리
+                }
+            });
+        });
+    }
+</script>
+</html>
