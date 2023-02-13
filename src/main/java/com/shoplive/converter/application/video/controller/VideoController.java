@@ -1,8 +1,10 @@
 package com.shoplive.converter.application.video.controller;
 
-import com.shoplive.converter.application.video.dto.UploadDto.*;
-import com.shoplive.converter.application.video.dto.VideoDto.*;
+import com.shoplive.converter.application.video.dto.VideoDto.VideoResponse;
 import com.shoplive.converter.application.video.service.VideoService;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +39,13 @@ public class VideoController {
             consumes = {
                     MediaType.APPLICATION_JSON_VALUE,
                     MediaType.MULTIPART_FORM_DATA_VALUE
-    })
-    public ResponseEntity<VideoResponse> convertVideo(@RequestPart("title") String title, @RequestPart("file") MultipartFile file) throws IOException {
+            }
+    )
+    public ResponseEntity<VideoResponse> convertVideo(@RequestPart("title") String jsonStr, @RequestPart("file") MultipartFile file) throws IOException, ParseException {
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObj = (JSONObject) jsonParser.parse(jsonStr);
 
-        VideoResponse response = videoService.convertVideo(title, file);
+        VideoResponse response = videoService.convertVideo(String.valueOf(jsonObj.get("title")), file);
         URI location = URI.create("/video/" + response.id());
         return ResponseEntity.created(location)
                 .build();
