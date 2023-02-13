@@ -3,7 +3,7 @@ package com.shoplive.converter.application.video.service;
 import com.shoplive.converter.application.video.domain.Video;
 import com.shoplive.converter.application.video.domain.VideoData;
 import com.shoplive.converter.application.video.dto.FileDataDto.*;
-import com.shoplive.converter.application.video.dto.UploadDto.*;
+import com.shoplive.converter.application.video.dto.ConvertDto.*;
 import com.shoplive.converter.application.video.dto.VideoDto.*;
 import com.shoplive.converter.application.video.repository.VideoRepository;
 import com.shoplive.converter.core.exception.ErrorCode;
