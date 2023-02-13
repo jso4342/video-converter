@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/shoplive?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://db-mysql:3306/shoplive?serverTimezone=Asia/Seoul
     username: root
     password: 12345678
 
