@@ -2,60 +2,65 @@
 영상을 업로드하여 사이즈를 변환하는 API 서버입니다
 <hr>
 
-## 🛠 **프로젝트 빌드 및 서버 실행 방법**
-
-- local에서 사용할 시 MySql을 설치해주세요
-
-
-1. 상단의 Code 버튼을 눌러 경로를 복사한 후 클론 받습니다.
-
-```
-$ git clone https://github.com/jso4342/video-converter.git
-```
-
-2. 패키지를 설치합니다.
-
-### 📣 [배경 및 공통 요구사항]
-* 영상을 업로드하여 사이즈를 변환하는 API 서버를 제작합니다.
-* 사용자나 별도의 인증은 구현하지 않아도 됩니다.
-* 기본적인 요청과 응답은 json으로 구성하고 영상은 multipart로 업로드합니다.
-* 빌드 도구는 gradle 혹은 maven을 사용합니다. framework은 자유롭게 선택하시면 됩니다. (gradle 사용)
-* storage는 h2, mysql, redis, mongodb 등 편한 제품을 사용하시면 됩니다.         (mysql 사용) 
-* 스토리지, 초기화 스크립트 및 빌드 결과물을 포함한 Dockerfile을 작성하여 docker run 혹은 docker compose를 통해 실행할 수 있도록 구성합니다.
-* 서버의 구동 및 테스트 방법을 README.md로 작성합니다.
+## 📎개발 환경
+* Openjdk/17
+* Gradle/7.5.1
+* MySQL/8.0.32
+* MacOS (Intel)
 
 <br>
 
+## 🛠 **프로젝트 빌드 및 서버 실행 방법**
+### A.DockerFile 을 이용하여 Docker Image 만들기(MySQL)
 
+1. 상단의 Code 버튼을 눌러 경로를 복사한 후 클론 받습니다.
+```
+$ git clone https://github.com/jso4342/video-converter.git
+```
+2. 패키지를 설치합니다.
+3. Dockerfile 경로로 디렉토리를 이동합니다.
+```
+$ cd build/libs/
+```
+4. 도커 네트워크 생성
+```
+$ docker network create springboot-mysql-net
+```
+5. 도커 환경에서 MySQL 구동
+```
+$ docker pull mysql:8.0
+$ docker run --name db-mysql -p 3307:3306 --network springboot-mysql-net -e MYSQL_ROOT_PASSWORD=12345678 -e MYSQL_DATABASE=shoplive -d mysql:8.0
+```
+6. 도커 환경에서 springboot app 구동
+* Dockerfile을 이용한 이미지 빌드
+```
+$ docker build -t springboot-mysql:1.0
+```
+* 빌드된 이미지로 컨테이너 구동
+```
+$ docker run -p 8085:8085 --name springboot-mysql --network springboot-mysql-net -d springboot-mysql:1.0
+```
+
+### B.Docker Hub 에서 Docker Image 내려 받기
+* 아래 명령어를 통해 [Docker hub](https://hub.docker.com/repository/docker/jso4342/springboot-mysql/general) 에서 이미지를 내려 받을 수 있습니다.
+```
+$ docker push jso4342/springboot-mysql:tagname
+```
+
+
+<br>
 <br>
 
 ### 📙 [구현한 API 목록]
 ✔️ 영상 업로드 및 변환 API
 - 썸네일 추출 및 저장 기능 구현
+* 서버 구동 후, [localhost:8085](http://localhost:8085/) 에 접속하면 요청을 보낼 수 있는 테스트페이지로 접속합니다.
+- <img width="777" alt="스크린샷 2023-02-14 오후 4 12 20" src="https://user-images.githubusercontent.com/57066693/218665125-cd22e103-7642-45fb-ade1-0d6d4cb1fcbf.png">
+
+<br> 
 
 ✔️ 영상의 상세 정보를 조회할 수 있는 API
-
-```java
-// 요청 :  
-GET /video/{id}
-
-// 응답 예시 : 
-{
-  "id": 1,
-  "title": "title",
-  "original": {
-    "width": 480,
-    "height": 270,
-    "videoUrl": "http://localhost:8085/imagePath/7c0a4460-283c-4e03-9fca-402930c8e080.mp4"
-  },
-"resized": {
-    "width": 360,
-    "height": 202,
-    "videoUrl": "http://localhost:8085/imagePath/2a940a0b-a2b1-46c5-b5ea-502e917f909f.mp4"
-  },
-  "thumbnailUrl": "http://localhost:8085/imagePath/thumbnail/7c0a4460-283c-4e03-9fca-402930c8e080_thumbnail.jpg",
-  "createdAt": "2023-02-09T07:06:24"
-}
-```
-
-<br>
+* 서버 구동 후, `localhost:8085/video/{id}` 로 요청을 보낼 수 있습니다.
+* 업로드한 영상, 변환한 영상, 썸네일 이미지 등의 리소스는 static resource로 제공됩니다.
+* `localhost:8085/imagePath/업로드한 영상의 이름.mp4` - 업로드한 영상, 변환한 영상
+* `localhost:8085/imagePath/thumbnail/업로드한 영상의 이름_thumbnail.jpg` - 업로드한 영상, 변환한 영상
