@@ -54,8 +54,25 @@ $ docker push jso4342/springboot-mysql:tagname
 ### 📙 [구현한 API 목록]
 ✔️ 영상 업로드 및 변환 API
 - 썸네일 추출 및 저장 기능 구현
-* 서버 구동 후, [localhost:8085](http://localhost:8085/) 에 접속하면 요청을 보낼 수 있는 테스트페이지로 접속합니다.
+* 서버 구동 후, [localhost:8085](http://localhost:8085/) 에 접속하면 요청을 보낼 수 있는 테스트페이지로 접속합니다. 
 - <img width="777" alt="스크린샷 2023-02-14 오후 4 12 20" src="https://user-images.githubusercontent.com/57066693/218665125-cd22e103-7642-45fb-ade1-0d6d4cb1fcbf.png">
+
+<br>
+
+‼️ 위 페이지는 요청을 보내기 위해 만들어진 테스트 페이지로, 요청 성공 및 실패 시에 특별한 작동을 하지 않습니다. 
+- 요청 성공 시 console 
+```java
+[DEBUG] 2023-02-14 ..... DispatcherServlet - Completed 201 CREATED
+```
+- 요청 실패 시 console 
+```java
+[ERROR] 2023-02-14 ..... FileDataDto - file must be in MP4 format. requested file is in = docx
+...
+[DEBUG] 2023-02-14 ..... DispatcherServlet - Completed 400 BAD_REQUEST
+// 위 에러 메세지는 예시로, 실제로는 발생한 오류에 따라 다릅니다. 
+```
+
+
 
 <br> 
 
