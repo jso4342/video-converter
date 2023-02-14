@@ -41,12 +41,6 @@ $ docker build -t springboot-mysql:1.0
 $ docker run -p 8085:8085 --name springboot-mysql --network springboot-mysql-net -d springboot-mysql:1.0
 ```
 
-### B.Docker Hub 에서 Docker Image 내려 받기
-* 아래 명령어를 통해 [Docker hub](https://hub.docker.com/repository/docker/jso4342/springboot-mysql/general) 에서 이미지를 내려 받을 수 있습니다.
-```
-$ docker push jso4342/springboot-mysql:tagname
-```
-
 
 <br>
 <br>
