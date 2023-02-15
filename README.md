@@ -68,9 +68,11 @@
 
 
 ## 🛠 **프로젝트 빌드 및 서버 실행 방법**
+<!-- 
 <details>
 <summary>본문 확인 (👈 Click)</summary>
 <div markdown="1">
+--> 
 
 ### DockerFile 을 이용하여 Docker Image 만들기(MySQL)
 
@@ -101,10 +103,10 @@ $ docker build -t springboot-mysql:1.0
 ```
 $ docker run -p 8085:8085 --name springboot-mysql --network springboot-mysql-net -d springboot-mysql:1.0
 ```
+
+<!-- 
 </div>
 </details>
-
-<!--
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
